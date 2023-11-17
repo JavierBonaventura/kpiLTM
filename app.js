@@ -20,6 +20,11 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+app.get('/', (req, res) => {
+    res.send('home');
+});
+
+
 app.post('/enviar-correo', (req, res) => {
   const { nombre, email, consulta } = req.body;
 console.log(req.body)
