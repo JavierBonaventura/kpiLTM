@@ -9,8 +9,9 @@ const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cors({
-  origin: 'https://ribera.vercel.app/',
+  origin: 'https://ribera.vercel.app',
 }));
+
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
