@@ -1,8 +1,7 @@
 const express = require('express');
-const nodemailer = require('nodemailer');
-const cors = require('cors');
-const path = require('path'); // Asegúrate de incluir este requerimiento
+const path = require('path');
 require('dotenv').config();
+const mathController = require('./controllers/mathController'); // Importa el controlador
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -11,12 +10,13 @@ const port = process.env.PORT || 5000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-
 app.get('/', (req, res) => {
-  res.render('index'); // Renderiza la vista index.ejs
+    res.render('index'); // Renderiza la vista index.ejs
 });
 
+// Ruta para sumar dos números
+app.get('/sumar', mathController.sumar);
 
 app.listen(port, () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`);
+    console.log(`Servidor escuchando en http://localhost:${port}`);
 });
