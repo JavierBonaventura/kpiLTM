@@ -21,7 +21,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 app.get('/matriz', (req, res) => {
-  res.render('index'); // Renderiza la vista index.ejs
+  res.render('matriz'); // Renderiza la vista index.ejs
 });
 
 app.get('/matriz', function(req, res, next) {
