@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Página con Tarjetas y Efectos</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+        <link rel="stylesheet" href="/stylesheets/style.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
+    </head>
+    <body>
+    <div class="fondo">
+        <div class="dark-mask"></div>
+        <div class="overlay"></div>
+        <div class="top-bar">
+            <img src="https://i.imgur.com/Zolobvu.png" alt="Logo" class="logo" />
+            <img src="https://i.imgur.com/dceYKLW.png" alt="Logo" style="width: 220px; height: auto;" />
+            <img src="https://i.imgur.com/2FO5LPI.png" alt="Logo" style="width: 10%; height: auto" />
+        </div>
+
+        <span class="open-btn" id="myButton">&#9776;</span>
+        <div id="sidebar" class="sidebar"></div>
+        
+        <div class="main-content">
+            <h1>Resultado del archivo procesado</h1>
+
+            <% 
+            const intervalsCof = {
+                "Extremo": [1.50e9, Infinity],
+                "Crítico": [1.50e8, 1.50e9],
+                "Severo": [1.50e6, 1.50e8],
+                "Serio": [5.00e5, 1.50e6],
+                "Moderado": [4.00e4, 5.00e5],
+                "Menor": [4.00e3, 4.00e4],
+                "Insignificante": [0, 4.00e3]
+            };
+
+            const intervalsFoF = {
+                "Casi Imposible": [0, 1.00e-5],
+                "Raro": [1.00e-5, 1.00e-4],
+                "Posible": [1.00e-4, 1.00e-3],
+                "Probable": [1.00e-3, 1.00e-2],
+                "Muy Probable": [1.00e-2, 1.00e-1],
+                "Altamente Probable": [1.00e-1, 1.00],
+                "Casi Seguro": [1.00, Infinity]
+            };
+            const data = {
+                matrix: [
+                    [
+                        { color: 'orange', count: 0 }, // Casi Imposible
+                        { color: 'orange', count: 0 }, // Raro
+                        { color: 'red', count: 0 },    // Posible
+                        { color: 'red', count: 0 },    // Probable
+                        { color: 'dark-red', count: 0 }, // Muy Probable
+                        { color: 'dark-red', count: 0 }, // Altamente Probable
+                        { color: 'dark-red', count: 0 }  // Casi Seguro
+                    ],
+                    [
+                        { color: 'yellow', count: 0 },
+                        { color: 'orange', count: 0 },
+                        { color: 'orange', count: 0 },
+                        { color: 'red', count: 0 },
+                        { color: 'red', count: 0 },
+                        { color: 'dark-red', count: 0 },
+                        { color: 'dark-red', count: 0 }
+                    ],
+                    [
+                        { color: 'yellow', count: 0 },
+                        { color: 'yellow', count: 0 },
+                        { color: 'orange', count: 0 },
+                        { color: 'red', count: 0 },
+                        { color: 'red', count: 0 },
+                        { color: 'dark-red', count: 0 },
+                        { color: 'dark-red', count: 0 }
+                    ],
+                    [
+                        { color: 'green', count: 0 },
+                        { color: 'yellow', count: 0 },
+                        { color: 'orange', count: 0 },
+                        { color: 'orange', count: 0 },
+                        { color: 'red', count: 0 },
+                        { color: 'red', count: 0 },
+                        { color: 'dark-red', count: 0 }
+                    ],
+                    [
+                        { color: 'green', count: 0 },
+                        { color: 'green', count: 0 },
+                        { color: 'yellow', count: 0 },
+                        { color: 'orange', count: 0 },
+                        { color: 'orange', count: 0 },
+                        { color: 'red', count: 0 },
+                        { color: 'red', count: 0 }
+                    ],
+                    [
+                        { color: 'green', count: 0 },
+                        { color: 'green', count: 0 },
+                        { color: 'yellow', count: 0 },
+                        { color: 'yellow', count: 0 },
+                        { color: 'orange', count: 0 },
+                        { color: 'orange', count: 0 },
+                        { color: 'red', count: 0 }
+                    ],
+                    [
+                        { color: 'green', count: 0 },
+                        { color: 'green', count: 0 },
+                        { color: 'green', count: 0 },
+                        { color: 'yellow', count: 0 },
+                        { color: 'yellow', count: 0 },
+                        { color: 'orange', count: 0 },
+                        { color: 'orange', count: 0 }
+                    ]
+                ]
+            };
+            %>
+
+            <% if (data && data.matrix) { %>
+                <div class="contenedor-matriz">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>FoF/CoF</th>
+                                <% Object.keys(intervalsFoF).forEach(fofCategory => { %>
+                                    <th><%= fofCategory %><br>(<%= intervalsFoF[fofCategory].join(' - ') %>)</th>
+                                <% }); %>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% data.matrix.forEach((row, rowIndex) => { %>
+                                <tr>
+                                    <td><%= Object.keys(intervalsCof)[rowIndex] %><br>(<%= intervalsCof[Object.keys(intervalsCof)[rowIndex]].join(' - ') %>)</td>
+                                    <% row.forEach(cell => { %>
+                                        <td class="<%= cell.color %>"><%= cell.count %></td>
+                                    <% }); %>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                    <div class="legend-container">
+                        <h2>Leyendas</h2>
+                        <div class="legend">
+                            <div><span class="dark-red"></span> VH (Muy Alto)</div>
+                            <div><span class="red"></span> H (Alto)</div>
+                            <div><span class="orange"></span> M (Medio)</div>
+                            <div><span class="yellow"></span> L (Bajo)</div>
+                            <div><span class="green"></span> VL (Muy Bajo)</div>
+                        </div>
+                    </div>
+                </div>
+            <% } else { %>
+                <p>No se encontraron datos en la matriz.</p>
+            <% } %>
+
+            <a href="/">Volver</a>
+        </div>
+    </div>
+
+    <script src="/javascripts/script.js"></script>
+    <script>
+      // Tu script para manejar el sidebar
+      const ductos = [
+        {
+            nombre: "TPRA_IndiaBonita_Ramones",
+            tramos: [
+                { nombre: "GSD 42 Divisadero - Est Med Los Ramones" },
+                { nombre: "GSD 42 India Bonita - Divisadero" }
+            ]
+        },
+        {
+            nombre: "TPRA_Sistema_Naco_Hermosillo",
+            tramos: [
+                { nombre: "GSD 16 Cuitaca - Santa Ana Sonora" },
+                { nombre: "GSD 16 Est. Compresión - Cuitaca" },
+                { nombre: "GSD 16 Imp. Naco - Est. Compresión" },
+                { nombre: "GSD 16 Los Chinos - Hermosillo" },
+                { nombre: "GSD 16 Santa Ana Sonora - Los Chinos" }
+            ]
+        }
+      ];
+
+      const ductoSelect = document.getElementById('ducto-select');
+      const tramoSelect = document.getElementById('tramo-select');
+      const fileInput = document.getElementById('file-input');
+      const uploadForm = document.getElementById('upload-form');
+
+      const cargarTramos = (ductoSeleccionado) => {
+          tramoSelect.innerHTML = '<option value="">Seleccione un tramo</option>';
+          if (ductoSeleccionado) {
+              const ductoData = ductos.find(ducto => ducto.nombre === ductoSeleccionado);
+              if (ductoData) {
+                  ductoData.tramos.forEach(tramo => {
+                      const option = document.createElement('option');
+                      option.value = tramo.nombre;
+                      option.textContent = tramo.nombre;
+                      tramoSelect.appendChild(option);
+                  });
+              }
+          }
+      };
+
+      ductoSelect.addEventListener('change', (event) => {
+          const ductoSeleccionado = event.target.value;
+          cargarTramos(ductoSeleccionado);
+      });
+
+      uploadForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const selectedDucto = ductoSelect.value;
+          const selectedTramo = tramoSelect.value;
+          const file = fileInput.files[0];
+
+          if (selectedDucto && selectedTramo && file) {
+              const formData = new FormData();
+              formData.append('ducto', selectedDucto);
+              formData.append('tramo', selectedTramo);
+              formData.append('file', file);
+
+              fetch('/upload', {
+                  method: 'POST',
+                  body: formData
+              })
+              .then(response => response.json())
+              .then(data => {
+                  console.log(data);
+                  // Manejar respuesta
+              })
+              .catch(error => console.error('Error:', error));
+          } else {
+              alert('Por favor, seleccione un ducto, un tramo y un archivo para subir.');
+          }
+      });
+    </script>
+</body>
+</html>

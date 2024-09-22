@@ -1,0 +1,520 @@
+
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(to bottom, #265c4f, #16362e);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-sizing: border-box;
+  font-size: 30px;
+  z-index: 1;
+}
+
+.top-bar .logo {
+  height: 60px;
+}
+
+.top-bar .title {
+  flex-grow: 1;
+  text-align: center;
+}
+
+
+.overlay.hidden {
+  opacity: 0;
+}
+
+
+
+/* Añadir un contenedor de lado para ajustar el espacio disponible */
+.main-content {
+    margin-left: 220px; /* Ancho inicial de la sidebar */
+    margin-top: 80px; /* Añadir margen superior igual a la altura de la topbar */
+    transition: margin-left 0.3s;
+  }
+  
+
+.sidebar.collapsed ~ .main-content {
+  margin-left: 60px;
+  /* Ancho de la sidebar colapsada */
+}
+
+/* Nuevos estilos para la sidebar */
+.sidebar {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 220px;
+  height: calc(100% - 36px);
+  background: linear-gradient(to top, #265c4f, #16362e);
+  color: white;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 60px;
+  z-index: 2;
+}
+
+.sidebar a {
+  padding: 10px 15px;
+  text-decoration: none;
+  font-size: 14px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.card-icon-sidebar {
+  font-size: 20px;
+  margin-bottom: 10px;
+  z-index: 1;
+  padding-right: 8px;
+}
+
+.sidebar a:hover {
+  background-color: #1d463b;
+  transform: translateX(5px);
+  text-decoration: none;
+}
+
+.sidebar .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar.collapsed a {
+  text-align: center;
+  text-decoration: none;
+}
+
+.sidebar.collapsed .sidebar-item .link-text {
+  display: none;
+}
+
+.sidebar.collapsed .close-btn {
+  right: 15px;
+}
+
+.open-btn {
+  padding-left: 2px;
+  font-size: 28px;
+  cursor: pointer;
+  position: fixed;
+  top: 95px;
+  left: 10px;
+  color: white;
+  z-index: 3;
+}
+
+/* Estilos agregados para confgiguracion */
+
+main {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.contenedor-principal {
+  max-width: 100%;
+  width: 97%;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+.encabezado {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.encabezado h1 {
+  margin: 0;
+  color: #333;
+}
+#module-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual ancho */
+  gap: 20px; /* Espacio entre tarjetas */
+  padding: 20px; /* Espacio interno del contenedor */
+}
+
+.tarjeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s;
+}
+
+.tarjeta:hover {
+  background-color: #eaeaea;
+}
+
+.tarjeta i {
+  font-size: 24px;
+  color: #4caf50;
+}
+.tarjeta .info {
+  flex-grow: 1;
+  margin-left: 15px;
+}
+.tarjeta .info h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+.tarjeta .info p {
+  margin: 5px 0 0;
+  color: #666;
+  font-size: 14px;
+}
+.toggle-switch {
+  display: flex;
+  align-items: center;
+}
+.toggle-switch input[type="checkbox"] {
+  position: absolute;
+  left: -9999px;
+}
+.toggle-switch label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 10px;
+  position: relative;
+}
+.toggle-switch label:before {
+  content: "";
+  width: 40px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 50px;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+.toggle-switch label:after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  transition: transform 0.3s;
+}
+.toggle-switch input:checked + label:before {
+  background-color: #4caf50;
+}
+.toggle-switch input:checked + label:after {
+  transform: translateX(20px);
+}
+.boton-guardar {
+  width: 100%;
+  padding: 15px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+.boton-guardar:hover {
+  background-color: #45a049;
+}
+
+.icono {
+  margin-right: 8px;
+}
+
+
+/* estilo para matriz */
+.encabezado h1 {
+    margin: 0;
+    color: #333;
+    font-family: 'Roboto', sans-serif; /* Cambia a la fuente deseada */
+    font-size: 2em; /* Ajusta el tamaño si es necesario */
+  }
+
+
+  /* Estilo general para los selects */
+  select {
+    font-family: 'Roboto', sans-serif; /* Cambiar la fuente */
+    font-size: 16px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    color: #333;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    appearance: none; /* Elimina la flecha de select predeterminada */
+    position: relative; /* Asegura que el pseudo-elemento se posicione correctamente */
+    padding-right: 40px; /* Espacio para la flecha */
+}
+
+/* Pseudo-elemento para crear la flecha */
+/* Contenedor que simula el select con flecha */
+/* Contenedor que simula el select con flecha */
+.custom-select {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+select {
+    font-family: 'Roboto', sans-serif; /* Cambiar la fuente */
+    font-size: 16px;
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    color: #333;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    appearance: none; /* Elimina la flecha de select predeterminada */
+    padding-right: 40px; /* Espacio para la flecha */
+    -webkit-appearance: none; /* Asegura que también funcione en Safari */
+    -moz-appearance: none; /* Asegura que funcione en Firefox */
+}
+
+/* Flecha personalizada */
+.custom-select::after {
+    content: '▼'; /* Símbolo de la flecha */
+    font-size: 14px;
+    color: #333; /* Color de la flecha */
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Evita que la flecha interfiera con la interacción */
+    z-index: 1; /* Asegura que esté visible por encima del select */
+}
+
+/* Sombra y transición al enfocarse en el input */
+select:focus {
+    border-color: #4caf50;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+/* Mejora el estilo del contenedor del select */
+.input-container {
+    margin: 20px 0;
+    width: 50%; /* Ajustar el ancho al 50%, puedes cambiar este valor */
+}
+
+/* Etiquetas para los selects */
+label {
+    font-family: 'Roboto', sans-serif; /* Cambiar la fuente */
+    font-size: 16px;
+    color: #265c4f;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Contenedor para alinear los selects en fila */
+.select-row {
+    display: flex;
+    justify-content: space-between; /* Espacio entre los selects */
+    gap: 20px; /* Espacio entre los selects */
+    margin: 20px 0;
+}
+
+/* Mantener el ancho del 50% para cada select */
+.input-container {
+    flex: 1; /* Permitir que ambos selectores ocupen la misma cantidad de espacio */
+}
+
+/* Ajustar el ancho de los selects */
+select {
+    width: 100%; /* Ocupa el 100% del contenedor asignado */
+}
+
+
+/* estilo para el boton de la matriz */
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-profesional {
+    background-color: #4CAF50; /* Color principal */
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-profesional:hover {
+    background-color: #45a049; /* Cambio de color al hacer hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Mayor sombra al hacer hover */
+    transform: translateY(-2px); /* Efecto de levantamiento al hacer hover */
+}
+
+
+/* estilo para la matriz de 7 x 7 */
+
+
+.cuerpo-matriz {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
+    line-height: 1.4;
+
+}
+
+.contenedor-matriz {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead th {
+    background-color: #556080;
+    color: #fff;
+    padding: 8px; /* Ajuste para hacer más fina la primera fila */
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    font-size: 0.7em; /* Tamaño más pequeño para la primera fila */
+}
+
+tbody td:first-child {
+    background-color: #556080;
+    color: white;
+    text-align: center; /* Alineación centrada como en el encabezado */
+    font-weight: bold; /* Negrita para resaltar */
+    border: 1px solid #ddd;
+    font-size: 0.7em; /* Tamaño de fuente como en la primera fila */
+}
+
+
+tbody td {
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody td:first-child {
+    width: 150px; /* Aumenta el ancho de la primera columna */
+    font-weight: bold;
+}
+
+.green {
+    background-color: #28a745;
+    color: white;
+}
+
+.yellow {
+    background-color: #ffc107;
+    color: white;
+}
+
+.orange {
+    background-color: #fd7e14;
+    color: white;
+}
+
+.red {
+    background-color: #dc3545;
+    color: white;
+}
+
+.dark-red {
+    background-color: #b21f2d;
+    color: white;
+}
+
+tbody td:hover {
+    background-color: #e2e6ea;
+    cursor: pointer;
+    transform: scale(1.02);
+}
+/* Estilos para la leyenda */
+.legend-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.legend-container h2 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #444;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacio entre las leyendas */
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+}
+
+.legend span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+}

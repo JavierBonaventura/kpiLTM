@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,24 @@
     <h1>Cargar archivo Excel</h1>
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file" accept=".xlsx,.xls" required>
+        <button type="submit">Cargar</button>
+    </form>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Seleccionar Archivo Excel</title>
+</head>
+<body>
+    <h1>Seleccionar archivo Excel</h1>
+    <form action="/upload" method="post">
+        <label for="fileSelect">Selecciona un archivo:</label>
+        <select name="file" id="fileSelect" required>
+            <option value="TPRA_IndiaBonita_Ramones.xlsx">TPRA_IndiaBonita_Ramones.xlsx</option>
+            <option value="TPRA_Sistema_Naco_Hermosillo.xlsx">TPRA_Sistema_Naco_Hermosillo.xlsx</option>
+        </select>
         <button type="submit">Cargar</button>
     </form>
 </body>

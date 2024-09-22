@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz de Riesgo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="cuerpo-matriz">
+    <div class="contenedor-matriz">
+        <table>
+            <thead>
+                <tr>
+                    <th>FoF/CoF</th>
+                    <th>Casi Imposible<br>(- 1.00e-5)</th>
+                    <th>Raro<br>(1.00e-5 - 1.00e-4)</th>
+                    <th>Posible<br>(1.00e-4 - 1.00e-3)</th>
+                    <th>Probable<br>(1.00e-3 - 1.00e-2)</th>
+                    <th>Muy Probable<br>(1.00e-2 - 1.00e-1)</th>
+                    <th>Altamente Probable<br>(1.00e-1 - 1.00e0)</th>
+                    <th>Casi Seguro<br>(1.00e0 -)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Extremo<br>(1.50e9 -)</td>
+                    <td class="orange">0</td>
+                    <td class="orange">0</td>
+                    <td class="red">0</td>
+                    <td class="red">0</td>
+                    <td class="dark-red">0</td>
+                    <td class="dark-red">0</td>
+                    <td class="dark-red">0</td>
+                </tr>
+                <tr>
+                    <td>Crítico<br>(1.50e8 - 1.50e9)</td>
+                    <td class="yellow">0</td>
+                    <td class="orange">0</td>
+                    <td class="orange">0</td>
+                    <td class="red">0</td>
+                    <td class="red">0</td>
+                    <td class="dark-red">0</td>
+                    <td class="dark-red">0</td>
+                </tr>
+                <tr>
+                    <td>Severo<br>(1.50e6 - 1.50e8)</td>
+                    <td class="yellow">0</td>
+                    <td class="yellow">0</td>
+                    <td class="orange">0</td>
+                    <td class="red">0</td>
+                    <td class="red">0</td>
+                    <td class="dark-red">0</td>
+                    <td class="dark-red">0</td>
+                </tr>
+                <tr>
+                    <td>Serio<br>(5.00e5 - 1.50e6)</td>
+                    <td class="green">0</td>
+                    <td class="yellow">0</td>
+                    <td class="orange">0</td>
+                    <td class="orange">0</td>
+                    <td class="red">0</td>
+                    <td class="red">0</td>
+                    <td class="dark-red">0</td>
+                </tr>
+                <tr>
+                    <td>Moderado<br>(4.00e4 - 5.00e5)</td>
+                    <td class="green">0</td>
+                    <td class="green">0</td>
+                    <td class="yellow">0</td>
+                    <td class="orange">0</td>
+                    <td class="orange">0</td>
+                    <td class="red">0</td>
+                    <td class="red">0</td>
+                </tr>
+                <tr>
+                    <td>Menor<br>(4.00e3 - 4.00e4)</td>
+                    <td class="green">0</td>
+                    <td class="green">0</td>
+                    <td class="yellow">0</td>
+                    <td class="yellow">0</td>
+                    <td class="orange">0</td>
+                    <td class="orange">0</td>
+                    <td class="red">0</td>
+                </tr>
+                <tr>
+                    <td>Insignificante<br>(- 4.00e3)</td>
+                    <td class="green">0</td>
+                    <td class="green">0</td>
+                    <td class="green">0</td>
+                    <td class="yellow">0</td>
+                    <td class="yellow">0</td>
+                    <td class="orange">0</td>
+                    <td class="orange">0</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="legend-container">
+            <h2>Leyendas</h2>
+            <div class="legend">
+                <div><span class="dark-red"></span> VH (Muy Alto)</div>
+                <div><span class="red"></span> H (Alto)</div>
+                <div><span class="orange"></span> M (Medio)</div>
+                <div><span class="yellow"></span> L (Bajo)</div>
+                <div><span class="green"></span> VL (Muy Bajo)</div>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+
+
+.cuerpo-matriz {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+
+    line-height: 1.4;
+
+}
+
+.contenedor-matriz {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead th {
+    background-color: #556080;
+    color: #fff;
+    padding: 8px; /* Ajuste para hacer más fina la primera fila */
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    font-size: 0.85em; /* Tamaño más pequeño para la primera fila */
+}
+
+tbody td:first-child {
+    background-color: #556080;
+    color: white;
+    text-align: center; /* Alineación centrada como en el encabezado */
+    font-weight: bold; /* Negrita para resaltar */
+    border: 1px solid #ddd;
+    font-size: 0.85em; /* Tamaño de fuente como en la primera fila */
+}
+
+
+tbody td {
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody td:first-child {
+    width: 200px; /* Aumenta el ancho de la primera columna */
+    font-weight: bold;
+}
+
+.green {
+    background-color: #28a745;
+    color: white;
+}
+
+.yellow {
+    background-color: #ffc107;
+    color: white;
+}
+
+.orange {
+    background-color: #fd7e14;
+    color: white;
+}
+
+.red {
+    background-color: #dc3545;
+    color: white;
+}
+
+.dark-red {
+    background-color: #b21f2d;
+    color: white;
+}
+
+tbody td:hover {
+    background-color: #e2e6ea;
+    cursor: pointer;
+    transform: scale(1.02);
+}
+/* Estilos para la leyenda */
+.legend-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.legend-container h2 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #444;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacio entre las leyendas */
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+}
+
+.legend span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+}
+</style>
+</html>

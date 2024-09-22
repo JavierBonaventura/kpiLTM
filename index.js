@@ -1,7 +1,10 @@
 const express = require('express');
+const fs = require('fs');
+
+const router = express.Router();
 const path = require('path');
 const multer = require('multer');
-const XLSX = require('xlsx');
+const { processFile } = require('./controllers/fileController'); // Importamos el controlador
 require('dotenv').config();
 
 const app = express();
@@ -10,66 +13,58 @@ const port = process.env.PORT || 5000;
 // Configuración del motor de plantillas EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true }));
 
-// // Configuración de multer para la carga de archivos
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'uploads/'); // carpeta donde se guardarán los archivos
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, file.originalname); // nombre original del archivo
-//     }
-// });
-// const upload = multer({ storage: storage });
-
-
-//guardar archivo en memoria para usar vercel
-// Configuración de multer para la carga de archivos
-const storage = multer.memoryStorage(); // Almacenamiento en memoria
-
+// Almacenamiento en memoria usando multer
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-app.get('/', (req, res) => {
+app.get('/matriz', (req, res) => {
   res.render('index'); // Renderiza la vista index.ejs
+});
+
+app.get('/matriz', function(req, res, next) {
+  res.render('matriz', { title: 'Página con Tarjetas y Efectos' });
 });
 
 // Ruta para manejar la carga del archivo
 // app.post('/upload', upload.single('file'), (req, res) => {
 //   try {
-//       const filePath = path.join(__dirname, 'uploads', req.file.filename);
-//       const workbook = XLSX.readFile(filePath);
+//     // Llamamos al controlador para procesar el archivo
+//     const jsonData = processFile(req.file.buffer);
 
-//       const jsonData = {};
-//       workbook.SheetNames.forEach(sheetName => {
-//           const worksheet = workbook.Sheets[sheetName];
-//           jsonData[sheetName] = XLSX.utils.sheet_to_json(worksheet); // Convertir cada hoja a JSON
-//       });
-
-//       res.render('resultado', { data: jsonData }); // Renderiza la vista resultado.ejs con los datos
+//     // Renderizamos la vista 'resultado.ejs' con el JSON procesado
+//     res.render('resultado', { data: jsonData });
 //   } catch (error) {
-//       console.error('Error al procesar el archivo:', error);
-//       res.status(500).send('Error al procesar el archivo.');
+//     console.error('Error al procesar el archivo:', error);
+//     res.status(500).send('Error al procesar el archivo.');
 //   }
 // });
 
-// Ruta para manejar la carga del archivo
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/upload', (req, res) => {
+  console.log(req.body); // Verifica los datos recibidos
+  const fileName = req.body.file;
+  const selectedTramo = req.body.tramo; // Obtén el tramo seleccionado
+  const filePath = path.join(__dirname, 'uploads', fileName);
+
   try {
-      const workbook = XLSX.read(req.file.buffer); // Lee desde el buffer en memoria
+    // Verifica que el archivo exista
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).send('Archivo no encontrado.');
+    }
 
-      const jsonData = {};
-      workbook.SheetNames.forEach(sheetName => {
-          const worksheet = workbook.Sheets[sheetName];
-          jsonData[sheetName] = XLSX.utils.sheet_to_json(worksheet);
-      });
+    const fileBuffer = fs.readFileSync(filePath);
+    const jsonData = processFile(fileBuffer, selectedTramo); // Pasa el tramo seleccionado
 
-      res.render('resultado', { data: jsonData });
+    res.render('resultado', { data: jsonData });
   } catch (error) {
-      console.error('Error al procesar el archivo:', error);
-      res.status(500).send('Error al procesar el archivo.');
+    console.error('Error al procesar el archivo:', error);
+    res.status(500).send('Error al procesar el archivo.');
   }
 });
 
+
 app.listen(port, () => {
-    console.log(`Servidor escuchando en http://localhost:${port}`);
+  console.log(`Servidor escuchando en http://localhost:${port}`);
 });

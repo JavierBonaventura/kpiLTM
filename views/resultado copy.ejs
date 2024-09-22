@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados</title>
+</head>
+<body>
+    <h1>Resultado del archivo procesado</h1>
+    <% 
+const intervalsCof = {
+    "Extreme": [1.50e9, Infinity],
+    "Critical": [1.50e8, 1.50e9],
+    "Severe": [1.50e6, 1.50e8],
+    "Serious": [5.00e5, 1.50e6],
+    "Moderate": [4.00e4, 5.00e5],
+    "Minor": [4.00e3, 4.00e4],
+    "Insignificant": [0, 4.00e3]
+};
+
+const intervalsFoF = {
+    "Almost Impossible": [0, 1.00e-5],
+    "Rare": [1.00e-5, 1.00e-4],
+    "Possible": [1.00e-4, 1.00e-3],
+    "Likely": [1.00e-3, 1.00e-2],
+    "Very Likely": [1.00e-2, 1.00e-1],
+    "Highly Likely": [1.00e-1, 1.00],
+    "Almost Certain": [1.00, Infinity]
+};
+%>
+
+    <% if (data && data.fofProcesado) { %>
+        <h2>FoF Procesado</h2>
+        <h3>Cantidad: <%= data.fofProcesado.length %></h3>
+        <pre><%= JSON.stringify(data.fofProcesado, null, 2) %></pre>
+    <% } else { %>
+        <p>No se encontraron datos en FoF.</p>
+    <% } %>
+
+    <% if (data && data.cofProcesado) { %>
+        <h2>CoF Procesado</h2>
+        <h3>Cantidad: <%= data.cofProcesado.length %></h3>
+        <pre><%= JSON.stringify(data.cofProcesado, null, 2) %></pre>
+    <% } else { %>
+        <p>No se encontraron datos en CoF.</p>
+    <% } %>
+
+    <% if (data && data.matrix) { %>
+        <h2>Matriz de Resultados</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>FoF / CoF</th>
+                    <% Object.keys(intervalsCof).forEach(cofCategory => { %>
+                        <th><%= cofCategory %></th>
+                    <% }); %>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.matrix.forEach((row, rowIndex) => { %>
+                    <tr>
+                        <td><%= Object.keys(intervalsFoF)[rowIndex] %></td>
+                        <% row.forEach(cell => { %>
+                            <td><%= cell.count %></td>
+                        <% }); %>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <% if (data && data.jsonOutput) { %>
+        <h2>JSON de Resultados</h2>
+        <pre><%= JSON.stringify(data.jsonOutput, null, 2) %></pre>
+    <% } %>
+
+    <a href="/">Volver</a>
+</body>
+</html>

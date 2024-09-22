@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz de Riesgo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="8" class="fof-header">FoF</th>
+                </tr>
+    
+                <tr>
+                    <th>Casi Imposible<br>(- 1.00e-5)</th>
+                    <th>Raro<br>(1.00e-5 - 1.00e-4)</th>
+                    <th>Posible<br>(1.00e-4 - 1.00e-3)</th>
+                    <th>Probable<br>(1.00e-3 - 1.00e-2)</th>
+                    <th>Muy Probable<br>(1.00e-2 - 1.00e-1)</th>
+                    <th>Altamente Probable<br>(1.00e-1 - 1.00e0)</th>
+                    <th>Casi Seguro<br>(1.00e0 -)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="orange">0</td>
+                    <td class="orange">0</td>
+                    <td class="red">0</td>
+                    <td class="red">0</td>
+                    <td class="dark-red">0</td>
+                    <td class="dark-red">0</td>
+                    <td class="dark-red">0</td>
+                </tr>
+                <tr>
+                    <td class="yellow">5</td>
+                    <td class="orange">212</td>
+                    <td class="orange">398</td>
+                    <td class="red">17</td>
+                    <td class="red">9</td>
+                    <td class="dark-red">4</td>
+                    <td class="dark-red">0</td>
+                </tr>
+                <tr>
+                    <td class="yellow">91</td>
+                    <td class="yellow">1,514</td>
+                    <td class="orange">2,132</td>
+                    <td class="red">55</td>
+                    <td class="red">65</td>
+                    <td class="dark-red">30</td>
+                    <td class="dark-red">68</td>
+                </tr>
+                <tr>
+                    <td class="green">0</td>
+                    <td class="yellow">0</td>
+                    <td class="orange">0</td>
+                    <td class="orange">0</td>
+                    <td class="red">0</td>
+                    <td class="red">0</td>
+                    <td class="dark-red">0</td>
+                </tr>
+                <tr>
+                    <td class="green">0</td>
+                    <td class="green">0</td>
+                    <td class="yellow">0</td>
+                    <td class="orange">0</td>
+                    <td class="orange">0</td>
+                    <td class="red">0</td>
+                    <td class="red">0</td>
+                </tr>
+                <tr>
+                    <td class="green">0</td>
+                    <td class="green">0</td>
+                    <td class="yellow">0</td>
+                    <td class="yellow">0</td>
+                    <td class="orange">0</td>
+                    <td class="orange">0</td>
+                    <td class="red">0</td>
+                </tr>
+                <tr>
+                    <td class="green">0</td>
+                    <td class="green">0</td>
+                    <td class="green">0</td>
+                    <td class="yellow">0</td>
+                    <td class="yellow">0</td>
+                    <td class="orange">0</td>
+                    <td class="orange">0</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Leyenda de colores -->
+        <div class="legend">
+            <div><span class="dark-red"></span> VH (Muy Alto)</div>
+            <div><span class="red"></span> H (Alto)</div>
+            <div><span class="orange"></span> M (Medio)</div>
+            <div><span class="yellow"></span> L (Bajo)</div>
+            <div><span class="green"></span> VL (Muy Bajo)</div>
+        </div>
+    </div>
+</body>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead th {
+    background-color: #556080;
+    color: #fff;
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    font-size: 0.85em;
+}
+
+.fof-header {
+    background-color: #556080;
+    color: white;
+    font-size: 1.2em;
+    text-align: center;
+    padding: 10px;
+}
+
+.cof-header {
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    background-color: #556080;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 10px;
+    text-align: center;
+}
+
+tbody td {
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.green {
+    background-color: #28a745;
+    color: white;
+}
+
+.yellow {
+    background-color: #ffc107;
+    color: white;
+}
+
+.orange {
+    background-color: #fd7e14;
+    color: white;
+}
+
+.red {
+    background-color: #dc3545;
+    color: white;
+}
+
+.dark-red {
+    background-color: #b21f2d;
+    color: white;
+}
+
+tbody td:hover {
+    background-color: #e2e6ea;
+    cursor: pointer;
+    transform: scale(1.02);
+}
+
+/* Estilos para la leyenda */
+.legend {
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.legend div {
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+.legend span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+</style>
+</html>

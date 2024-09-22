@@ -1,19 +1,135 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Resultados</title>
-</head>
-<body>
-    <h1>Datos del archivo Excel</h1>
-    <% if (data) { %>
-        <% Object.keys(data).forEach(sheet => { %>
-            <h2><%= sheet %></h2>
-            <pre><%= JSON.stringify(data[sheet], null, 2) %></pre>
-        <% }) %>
-    <% } else { %>
-        <p>No se encontraron datos.</p>
-    <% } %>
-    <a href="/">Volver</a>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Página con Tarjetas y Efectos</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+        <link rel="stylesheet" href="/stylesheets/style.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
+        <style>
+            .green {
+                background-color: green;
+                color: white; /* Opcional */
+            }
+            .yellow {
+                background-color: yellow;
+            }
+            .orange {
+                background-color: orange;
+            }
+            .red {
+                background-color: red;
+                color: white; /* Opcional */
+            }
+            .dark-red {
+                background-color: darkred;
+                color: white; /* Opcional */
+            }
+        </style>
+    </head>
+    <body class="cuerpo-matriz">
+        <h1>Resultado del archivo procesado</h1>
+
+        <% 
+        const intervalsCof = {
+            "Extremo": [1.50e9, Infinity],
+            "Crítico": [1.50e8, 1.50e9],
+            "Severo": [1.50e6, 1.50e8],
+            "Serio": [5.00e5, 1.50e6],
+            "Moderado": [4.00e4, 5.00e5],
+            "Menor": [4.00e3, 4.00e4],
+            "Insignificante": [0, 4.00e3]
+        };
+
+        const intervalsFoF = {
+            "Casi Imposible": [0, 1.00e-5],
+            "Raro": [1.00e-5, 1.00e-4],
+            "Posible": [1.00e-4, 1.00e-3],
+            "Probable": [1.00e-3, 1.00e-2],
+            "Muy Probable": [1.00e-2, 1.00e-1],
+            "Altamente Probable": [1.00e-1, 1.00],
+            "Casi Seguro": [1.00, Infinity]
+        };
+        %>
+
+        <% if (data && data.matrix) { %>
+            <h2>Matriz de Resultados</h2>
+            <div class="contenedor-matriz">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>FoF/CoF</th>
+                            <% Object.keys(intervalsCof).forEach(cofCategory => { %>
+                                <th><%= cofCategory %><br>(<%= intervalsCof[cofCategory].join(' - ') %>)</th>
+                            <% }); %>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% data.matrix.forEach((row, rowIndex) => { %>
+                            <tr>
+                                <td><%= Object.keys(intervalsFoF)[rowIndex] %><br>(<%= intervalsFoF[Object.keys(intervalsFoF)[rowIndex]].join(' - ') %>)</td>
+                                <% row.forEach((cell, colIndex) => { %>
+                                    <td class="<%= 
+                                     (rowIndex === 0 && colIndex >= 0 && colIndex <= 2) ? 'orange' : 
+                                    (rowIndex === 0 && colIndex >= 1 && colIndex <= 2) ? 'orange' : 
+                                    (rowIndex === 0 && colIndex >= 3 && colIndex <= 4) ? 'red' : 
+                                    (rowIndex === 0 && colIndex >= 5) ? 'dark-red' : 
+                                    (rowIndex === 1 && colIndex === 0) ? 'yellow' : 
+                                    (rowIndex === 1 && colIndex >= 1 && colIndex <= 2) ? 'orange' : 
+                                    (rowIndex === 1 && colIndex >= 3 && colIndex <= 4) ? 'red' : 
+                                    (rowIndex === 1 && colIndex >= 5) ? 'dark-red' : 
+                                    (rowIndex === 2 && colIndex === 0) ? 'yellow' : 
+                                    (rowIndex === 2 && colIndex === 1) ? 'yellow' : 
+                                    (rowIndex === 2 && colIndex === 2) ? 'orange' : 
+                                    (rowIndex === 2 && colIndex >= 3 && colIndex <= 4) ? 'red' : 
+                                    (rowIndex === 2 && colIndex >= 5) ? 'dark-red' : 
+                                    (rowIndex === 3 && colIndex === 0) ? 'green' : 
+                                    (rowIndex === 3 && colIndex === 1) ? 'yellow' : 
+                                    (rowIndex === 3 && colIndex >= 2 && colIndex <= 3) ? 'orange' : 
+                                    (rowIndex === 3 && colIndex >= 4 && colIndex <= 5) ? 'red' : 
+                                    (rowIndex === 3 && colIndex >= 6) ? 'dark-red' : 
+                                    (rowIndex === 4 && colIndex === 0) ? 'green' : 
+                                    (rowIndex === 4 && colIndex === 1) ? 'green' : 
+                                    (rowIndex === 4 && colIndex === 2) ? 'yellow' : 
+                                    (rowIndex === 4 && colIndex >= 3 && colIndex <= 4) ? 'orange' : 
+                                    (rowIndex === 4 && colIndex >= 5) ? 'red' : 
+                                    (rowIndex === 5 && colIndex === 0) ? 'green' : 
+                                    (rowIndex === 5 && colIndex === 1) ? 'green' : 
+                                    (rowIndex === 5 && colIndex === 2) ? 'yellow' : 
+                                    (rowIndex === 5 && colIndex >= 3 && colIndex <= 4) ? 'yellow' : 
+                                    (rowIndex === 5 && colIndex >= 5) ? 'orange' : 
+                                    (rowIndex === 6 && colIndex === 0) ? 'green' : 
+                                    (rowIndex === 6 && colIndex === 1) ? 'green' : 
+                                    (rowIndex === 6 && colIndex === 2) ? 'green' : 
+                                    (rowIndex === 6 && colIndex >= 3 && colIndex <= 4) ? 'yellow' : 
+                                    (rowIndex === 6 && colIndex >= 5) ? 'orange' : '' %>">
+                                    <%= cell.count %>
+                                </td>
+                                
+                                <% }); %>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+                <div class="legend-container">
+                    <h2>Leyendas</h2>
+                    <div class="legend">
+                        <div><span class="dark-red"></span> VH (Muy Alto)</div>
+                        <div><span class="red"></span> H (Alto)</div>
+                        <div><span class="orange"></span> M (Medio)</div>
+                        <div><span class="yellow"></span> L (Bajo)</div>
+                        <div><span class="green"></span> VL (Muy Bajo)</div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+
+        <% if (data && data.jsonOutput) { %>
+            <h2>JSON de Resultados</h2>
+            <pre><%= JSON.stringify(data.jsonOutput, null, 2) %></pre>
+        <% } %>
+
+        <a href="/">Volver</a>
+    </body>
 </html>
