@@ -21,12 +21,9 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 app.get('/', (req, res) => {
-  res.render('index'); // Renderiza la vista index.ejs
+  res.render('matriz'); // Renderiza la vista index.ejs
 });
 
-app.get('/matriz', function(req, res, next) {
-  res.render('matriz', { title: 'Página con Tarjetas y Efectos' });
-});
 
 // Ruta para manejar la carga del archivo
 // app.post('/upload', upload.single('file'), (req, res) => {

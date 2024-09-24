@@ -34,15 +34,17 @@ function getCategoryIndex(value, intervals) {
 }
 
 function processFile(buffer, selectedTramo) {
-  console.log("el tramo seleccionado es", selectedTramo)
+  console.log("el tramo seleccionado es", selectedTramo || "Todo el ducto");
   const workbook = XLSX.read(buffer); // Leer el archivo desde el buffer
 
   // Obtenemos la hoja llamada 'FoF'
   const worksheetFoF = workbook.Sheets['FoF'];
   const jsonDataFoF = XLSX.utils.sheet_to_json(worksheetFoF);
 
-  // Filtrar datos de FoF por el tramo seleccionado
-  const filteredFoF = jsonDataFoF.filter(row => row.Name === selectedTramo);
+  // Si no se selecciona un tramo, no filtrar por el nombre del tramo.
+  const filteredFoF = selectedTramo
+    ? jsonDataFoF.filter(row => row.Name === selectedTramo)
+    : jsonDataFoF; // Si no hay tramo seleccionado, usar todos los datos
 
   // Procesar la hoja FoF
   const fofProcesado = {};
@@ -78,8 +80,11 @@ function processFile(buffer, selectedTramo) {
   const worksheetCoF = workbook.Sheets['CoF'];
   const jsonDataCoF = XLSX.utils.sheet_to_json(worksheetCoF);
 
-  // Filtrar datos de CoF por el tramo seleccionado
-  const filteredCoF = jsonDataCoF.filter(row => row.Name === selectedTramo);
+  // Si no se selecciona un tramo, no filtrar por el nombre del tramo.
+  const filteredCoF = selectedTramo
+    ? jsonDataCoF.filter(row => row.Name === selectedTramo)
+    : jsonDataCoF; // Si no hay tramo seleccionado, usar todos los datos
+
   const cofProcesado = {};
 
   filteredCoF.forEach(row => {

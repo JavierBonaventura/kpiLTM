@@ -1,135 +1,275 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Página con Tarjetas y Efectos</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-        <link rel="stylesheet" href="/stylesheets/style.css" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
-        <style>
-            .green {
-                background-color: green;
-                color: white; /* Opcional */
-            }
-            .yellow {
-                background-color: yellow;
-            }
-            .orange {
-                background-color: orange;
-            }
-            .red {
-                background-color: red;
-                color: white; /* Opcional */
-            }
-            .dark-red {
-                background-color: darkred;
-                color: white; /* Opcional */
-            }
-        </style>
-    </head>
-    <body class="cuerpo-matriz">
-        <h1>Resultado del archivo procesado</h1>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página con Tarjetas y Efectos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet" />
+    
+    <style>
+        .grafico-barras {
+            max-width: 1400px;
+            margin-left: 10%;
+            padding: 20px;
 
-        <% 
-        const intervalsCof = {
-            "Extremo": [1.50e9, Infinity],
-            "Crítico": [1.50e8, 1.50e9],
-            "Severo": [1.50e6, 1.50e8],
-            "Serio": [5.00e5, 1.50e6],
-            "Moderado": [4.00e4, 5.00e5],
-            "Menor": [4.00e3, 4.00e4],
-            "Insignificante": [0, 4.00e3]
-        };
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .green {
+            background-color: green;
+            color: white; /* Opcional */
+        }
+        .yellow {
+            background-color: yellow;
+        }
+        .orange {
+            background-color: orange;
+        }
+        .red {
+            background-color: red;
+            color: white; /* Opcional */
+        }
+        .dark-red {
+            background-color: darkred;
+            color: white; /* Opcional */
+        }
+    </style>
 
-        const intervalsFoF = {
-            "Casi Imposible": [0, 1.00e-5],
-            "Raro": [1.00e-5, 1.00e-4],
-            "Posible": [1.00e-4, 1.00e-3],
-            "Probable": [1.00e-3, 1.00e-2],
-            "Muy Probable": [1.00e-2, 1.00e-1],
-            "Altamente Probable": [1.00e-1, 1.00],
-            "Casi Seguro": [1.00, Infinity]
-        };
-        %>
+    <!-- Incluir Highcharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
 
-        <% if (data && data.matrix) { %>
-            <h2>Matriz de Resultados</h2>
-            <div class="contenedor-matriz">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>FoF/CoF</th>
-                            <% Object.keys(intervalsCof).forEach(cofCategory => { %>
-                                <th><%= cofCategory %><br>(<%= intervalsCof[cofCategory].join(' - ') %>)</th>
-                            <% }); %>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% data.matrix.forEach((row, rowIndex) => { %>
-                            <tr>
-                                <td><%= Object.keys(intervalsFoF)[rowIndex] %><br>(<%= intervalsFoF[Object.keys(intervalsFoF)[rowIndex]].join(' - ') %>)</td>
-                                <% row.forEach((cell, colIndex) => { %>
-                                    <td class="<%= 
-                                     (rowIndex === 0 && colIndex >= 0 && colIndex <= 2) ? 'orange' : 
-                                    (rowIndex === 0 && colIndex >= 1 && colIndex <= 2) ? 'orange' : 
-                                    (rowIndex === 0 && colIndex >= 3 && colIndex <= 4) ? 'red' : 
-                                    (rowIndex === 0 && colIndex >= 5) ? 'dark-red' : 
-                                    (rowIndex === 1 && colIndex === 0) ? 'yellow' : 
-                                    (rowIndex === 1 && colIndex >= 1 && colIndex <= 2) ? 'orange' : 
-                                    (rowIndex === 1 && colIndex >= 3 && colIndex <= 4) ? 'red' : 
-                                    (rowIndex === 1 && colIndex >= 5) ? 'dark-red' : 
-                                    (rowIndex === 2 && colIndex === 0) ? 'yellow' : 
-                                    (rowIndex === 2 && colIndex === 1) ? 'yellow' : 
-                                    (rowIndex === 2 && colIndex === 2) ? 'orange' : 
-                                    (rowIndex === 2 && colIndex >= 3 && colIndex <= 4) ? 'red' : 
-                                    (rowIndex === 2 && colIndex >= 5) ? 'dark-red' : 
-                                    (rowIndex === 3 && colIndex === 0) ? 'green' : 
-                                    (rowIndex === 3 && colIndex === 1) ? 'yellow' : 
-                                    (rowIndex === 3 && colIndex >= 2 && colIndex <= 3) ? 'orange' : 
-                                    (rowIndex === 3 && colIndex >= 4 && colIndex <= 5) ? 'red' : 
-                                    (rowIndex === 3 && colIndex >= 6) ? 'dark-red' : 
-                                    (rowIndex === 4 && colIndex === 0) ? 'green' : 
-                                    (rowIndex === 4 && colIndex === 1) ? 'green' : 
-                                    (rowIndex === 4 && colIndex === 2) ? 'yellow' : 
-                                    (rowIndex === 4 && colIndex >= 3 && colIndex <= 4) ? 'orange' : 
-                                    (rowIndex === 4 && colIndex >= 5) ? 'red' : 
-                                    (rowIndex === 5 && colIndex === 0) ? 'green' : 
-                                    (rowIndex === 5 && colIndex === 1) ? 'green' : 
-                                    (rowIndex === 5 && colIndex === 2) ? 'yellow' : 
-                                    (rowIndex === 5 && colIndex >= 3 && colIndex <= 4) ? 'yellow' : 
-                                    (rowIndex === 5 && colIndex >= 5) ? 'orange' : 
-                                    (rowIndex === 6 && colIndex === 0) ? 'green' : 
-                                    (rowIndex === 6 && colIndex === 1) ? 'green' : 
-                                    (rowIndex === 6 && colIndex === 2) ? 'green' : 
-                                    (rowIndex === 6 && colIndex >= 3 && colIndex <= 4) ? 'yellow' : 
-                                    (rowIndex === 6 && colIndex >= 5) ? 'orange' : '' %>">
-                                    <%= cell.count %>
-                                </td>
-                                
+<body>
+    <div class="fondo">
+        <div class="dark-mask"></div>
+        <div class="overlay"></div>
+        <div class="top-bar">
+            <img src="https://i.imgur.com/Zolobvu.png" alt="Logo" class="logo" />
+            <img src="https://i.imgur.com/dceYKLW.png" alt="Logo" style="width: 220px; height: auto;" />
+            <img src="https://i.imgur.com/2FO5LPI.png" alt="Logo" style="width: 10%; height: auto" />
+        </div>
+
+        <div id="sidebar" class="sidebar">
+            <a href="#"><i class="fas fa-home card-icon-sidebar"></i> Inicio</a>
+            <a href="#"><i class="fas fa-chart-line card-icon-sidebar"></i> Gráficos</a>
+            <a href="#"><i class="fas fa-table card-icon-sidebar"></i> Tablas</a>
+            <a href="#"><i class="fas fa-cog card-icon-sidebar"></i> Configuración</a>
+            <a href="#"><i class="fas fa-user card-icon-sidebar"></i> Perfil</a>
+            <a href="#"><i class="fas fa-envelope card-icon-sidebar"></i> Mensajes</a>
+            <a href="#"><i class="fas fa-bell card-icon-sidebar"></i> Notificaciones</a>
+            <a href="#"><i class="fas fa-sign-out-alt card-icon-sidebar"></i> Salir</a>
+            <a href="#"><i class="fas fa-question-circle card-icon-sidebar"></i> Ayuda</a>
+            <a href="#"><i class="fas fa-info-circle card-icon-sidebar"></i> Acerca de</a>
+        </div>
+        
+        
+        <div class="main-content">
+            <div class="contenedor-principal">
+                <div class="encabezado">
+                    <h1>KPI de Riesgo</h1>
+                    <hr class="linea-separadora" />
+                
+                    <% 
+                    const intervalsCof = {
+                        "Extremo": [1.50e9, Infinity],
+                        "Crítico": [1.50e8, 1.50e9],
+                        "Severo": [1.50e6, 1.50e8],
+                        "Serio": [5.00e5, 1.50e6],
+                        "Moderado": [4.00e4, 5.00e5],
+                        "Menor": [4.00e3, 4.00e4],
+                        "Insignificante": [0, 4.00e3]
+                    };
+                
+                    const intervalsFoF = {
+                        "Casi Imposible": [0, 1.00e-5],
+                        "Raro": [1.00e-5, 1.00e-4],
+                        "Posible": [1.00e-4, 1.00e-3],
+                        "Probable": [1.00e-3, 1.00e-2],
+                        "Muy Probable": [1.00e-2, 1.00e-1],
+                        "Altamente Probable": [1.00e-1, 1.00],
+                        "Casi Seguro": [1.00, Infinity]
+                    };
+                    %>
+                
+                <% if (data && data.matrix) { %>
+                    <div class="contenedor-matriz">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>FoF/CoF</th>
+                                    <% Object.keys(intervalsCof).forEach(cofCategory => { %>
+                                        <th><%= cofCategory %><br>(<%= intervalsCof[cofCategory].join(' - ') %>)</th>
+                                    <% }); %>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% 
+                                // Inicializamos un array para las sumas de las columnas
+                                const columnSums = Array(data.matrix[0].length).fill(0);
+
+                                data.matrix.forEach((row, rowIndex) => { %>
+                                    <tr>
+                                        <td><%= Object.keys(intervalsFoF)[rowIndex] %><br>(<%= intervalsFoF[Object.keys(intervalsFoF)[rowIndex]].join(' - ') %>)</td>
+                                        <% row.forEach((cell, colIndex) => { %>
+                                            <td class="<%= 
+                                                                                // Row 0
+                                            (rowIndex === 0 && colIndex === 0) ? 'orange' :
+                                            (rowIndex === 0 && colIndex === 1) ? 'orange' :
+                                            (rowIndex === 0 && colIndex === 2) ? 'red' :
+                                            (rowIndex === 0 && colIndex === 3) ? 'red' :
+                                            (rowIndex === 0 && colIndex === 4) ? 'dark-red' :
+                                            (rowIndex === 0 && colIndex >= 5) ? 'dark-red' :
+
+                                            // Row 1
+                                            (rowIndex === 1 && colIndex === 0) ? 'yellow' :
+                                            (rowIndex === 1 && colIndex === 1) ? 'orange' :
+                                            (rowIndex === 1 && colIndex === 2) ? 'orange' :
+                                            (rowIndex === 1 && colIndex === 3) ? 'red' :
+                                            (rowIndex === 1 && colIndex === 4) ? 'red' :
+                                            (rowIndex === 1 && colIndex >= 5) ? 'dark-red' :
+
+                                            // Row 2
+                                            (rowIndex === 2 && colIndex === 0) ? 'yellow' :
+                                            (rowIndex === 2 && colIndex === 1) ? 'yellow' :
+                                            (rowIndex === 2 && colIndex === 2) ? 'orange' :
+                                            (rowIndex === 2 && colIndex === 3) ? 'orange' :
+                                            (rowIndex === 2 && colIndex === 4) ? 'red' :
+                                            (rowIndex === 2 && colIndex === 5) ? 'red' :
+                                            (rowIndex === 2 && colIndex >= 6) ? 'dark-red' :
+
+                                            // Row 3
+                                            (rowIndex === 3 && colIndex === 0) ? 'yellow' :
+                                            (rowIndex === 3 && colIndex === 1) ? 'yellow' :
+                                            (rowIndex === 3 && colIndex === 2) ? 'yellow' :
+                                            (rowIndex === 3 && colIndex === 3) ? 'orange' :
+                                            (rowIndex === 3 && colIndex === 4) ? 'orange' :
+                                            (rowIndex === 3 && colIndex >= 5) ? 'red' :
+
+                                            // Row 4
+                                            (rowIndex === 4 && colIndex === 0) ? 'green' :
+                                            (rowIndex === 4 && colIndex === 1) ? 'yellow' :
+                                            (rowIndex === 4 && colIndex === 2) ? 'yellow' :
+                                            (rowIndex === 4 && colIndex === 3) ? 'yellow' :
+                                            (rowIndex === 4 && colIndex === 4) ? 'orange' :
+                                            (rowIndex === 4 && colIndex === 5) ? 'orange' :
+                                            (rowIndex === 4 && colIndex >= 6) ? 'red' :
+
+                                            // Row 5
+                                            (rowIndex === 5 && colIndex === 0) ? 'green' :
+                                            (rowIndex === 5 && colIndex === 1) ? 'green' :
+                                            (rowIndex === 5 && colIndex === 2) ? 'yellow' :
+                                            (rowIndex === 5 && colIndex === 3) ? 'yellow' :
+                                            (rowIndex === 5 && colIndex === 4) ? 'yellow' :
+                                            (rowIndex === 5 && colIndex >= 5) ? 'orange' :
+
+                                            // Row 6
+                                            (rowIndex === 6 && colIndex === 0) ? 'green' :
+                                            (rowIndex === 6 && colIndex === 1) ? 'green' :
+                                            (rowIndex === 6 && colIndex === 2) ? 'green' :
+                                            (rowIndex === 6 && colIndex === 3) ? 'yellow' :
+                                            (rowIndex === 6 && colIndex === 4) ? 'yellow' :
+                                            (rowIndex === 6 && colIndex === 5) ? 'yellow' :
+                                            (rowIndex === 6 && colIndex >= 6) ? 'orange' :
+                                            '' %>">
+                                            <%= cell.count %>
+                                            <% 
+                                            // Sumamos el valor de la celda a la columna correspondiente
+                                            columnSums[colIndex] += cell.count; 
+                                            %>
+                                        </td>
+                                        
+                                        <% }); %>
+                                    </tr>
                                 <% }); %>
-                            </tr>
-                        <% }); %>
-                    </tbody>
-                </table>
-                <div class="legend-container">
-                    <h2>Leyendas</h2>
-                    <div class="legend">
-                        <div><span class="dark-red"></span> VH (Muy Alto)</div>
-                        <div><span class="red"></span> H (Alto)</div>
-                        <div><span class="orange"></span> M (Medio)</div>
-                        <div><span class="yellow"></span> L (Bajo)</div>
-                        <div><span class="green"></span> VL (Muy Bajo)</div>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td><strong>Total</strong></td>
+                                    <%  let sumsArray = []; %>
+                                    <% columnSums.forEach(sum => { %>
+                                        <%    sumsArray.push(sum)%>
+                                        <td><%= sum %></td>
+                                    <% }); %>
+                                    <% console.log(sumsArray) %>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="legend-container">
+                            <h2>Leyendas</h2>
+                            <div class="legend">
+                                <div><span class="dark-red"></span> VH (Muy Alto)</div>
+                                <div><span class="red"></span> H (Alto)</div>
+                                <div><span class="orange"></span> M (Medio)</div>
+                                <div><span class="yellow"></span> L (Bajo)</div>
+                                <div><span class="green"></span> VL (Muy Bajo)</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    
+                    <!-- Gráfico de barras -->
+                    <!-- Gráfico de barras -->
+                    <div class="grafico-barras">
+<div id="bar-chart" style="width: 100%; height: 400px;"></div>
+</div>
+<script>
+    // Configurar el gráfico de Highcharts
+    const sumsArray = <%- JSON.stringify(sumsArray) %>; // Convirtiendo sumsArray a formato JSON
+    const columnNames = <%- JSON.stringify(Object.keys(intervalsCof)) %>; // Nombres de las categorías de columnas
+
+    Highcharts.chart('bar-chart', {
+        chart: {
+            type: 'column', // Cambia a 'column' para gráfico de barras vertical
+            backgroundColor: 'transparent', // Fondo transparente
+        },
+        title: {
+            text: 'Suma de Resultados por Categoría'
+        },
+        xAxis: {
+            categories: columnNames, // Usa los nombres de las columnas
+            title: {
+                text: 'Categorías'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Total'
+            },
+            labels: {
+                formatter: function () {
+                    return this.value; // Formatear etiquetas del eje Y
+                }
+            }
+        },
+        series: [{
+            name: 'Total',
+            data: sumsArray,
+            color: '#7cb5ec' // Color de las barras
+        }],
+        tooltip: {
+            shared: true,
+            valueSuffix: ' unidades' // Sufijo para las etiquetas
+        },
+        plotOptions: {
+            column: {
+                dataLabels: {
+                    enabled: true // Mostrar etiquetas en las barras
+                }
+            }
+        }
+    });
+
+</script>
+
+                <% } %>
+
+                <a href="/">Volver</a>
             </div>
-        <% } %>
+        </div>
+    </div>
+</body>
 
-        <% if (data && data.jsonOutput) { %>
-            <h2>JSON de Resultados</h2>
-            <pre><%= JSON.stringify(data.jsonOutput, null, 2) %></pre>
-        <% } %>
-
-        <a href="/">Volver</a>
-    </body>
 </html>

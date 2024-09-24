@@ -33,17 +33,21 @@ function getCategoryIndex(value, intervals) {
   return -1; // Si no encaja en ninguna categoría
 }
 
-function processFile(buffer) {
+function processFile(buffer, selectedTramo) {
+  console.log("el tramo seleccionado es", selectedTramo)
   const workbook = XLSX.read(buffer); // Leer el archivo desde el buffer
 
   // Obtenemos la hoja llamada 'FoF'
   const worksheetFoF = workbook.Sheets['FoF'];
   const jsonDataFoF = XLSX.utils.sheet_to_json(worksheetFoF);
 
+  // Filtrar datos de FoF por el tramo seleccionado
+  const filteredFoF = jsonDataFoF.filter(row => row.Name === selectedTramo);
+
   // Procesar la hoja FoF
   const fofProcesado = {};
 
-  jsonDataFoF.forEach(row => {
+  filteredFoF.forEach(row => {
     const key = `${row.Begin}-${row.End}`; // Crear clave única
 
     if (!fofProcesado[key]) {
@@ -74,9 +78,11 @@ function processFile(buffer) {
   const worksheetCoF = workbook.Sheets['CoF'];
   const jsonDataCoF = XLSX.utils.sheet_to_json(worksheetCoF);
 
+  // Filtrar datos de CoF por el tramo seleccionado
+  const filteredCoF = jsonDataCoF.filter(row => row.Name === selectedTramo);
   const cofProcesado = {};
 
-  jsonDataCoF.forEach(row => {
+  filteredCoF.forEach(row => {
     const key = `${row.Begin}-${row.End}`; // Crear clave única
 
     if (!cofProcesado[key]) {

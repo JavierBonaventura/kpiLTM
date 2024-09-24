@@ -1,4 +1,6 @@
-
+body {
+  font-family: 'Open Sans', sans-serif;
+}
 .top-bar {
   position: fixed;
   top: 0;
@@ -397,7 +399,7 @@ select {
 }
 
 .contenedor-matriz {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 20px auto;
     padding: 20px;
     background: white;
@@ -420,7 +422,7 @@ thead th {
     text-align: center;
     font-weight: bold;
     border: 1px solid #ddd;
-    font-size: 0.7em; /* Tamaño más pequeño para la primera fila */
+    font-size: 0.8em; /* Tamaño más pequeño para la primera fila */
 }
 
 tbody td:first-child {
@@ -429,7 +431,7 @@ tbody td:first-child {
     text-align: center; /* Alineación centrada como en el encabezado */
     font-weight: bold; /* Negrita para resaltar */
     border: 1px solid #ddd;
-    font-size: 0.7em; /* Tamaño de fuente como en la primera fila */
+    font-size: 0.8em; /* Tamaño de fuente como en la primera fila */
 }
 
 
@@ -438,6 +440,7 @@ tbody td {
     border: 1px solid #ddd;
     font-size: 0.9em;
     transition: background-color 0.3s ease;
+    padding: 8px; 
 }
 
 tbody tr:nth-child(even) {
